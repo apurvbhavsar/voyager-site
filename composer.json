@@ -33,7 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Apurv\\LaravelSite\\VoyagerServiceProvider"            
+                "Apurv\\LaravelSite\\VoyagerSiteProvider"            
             ]
         }
     }
