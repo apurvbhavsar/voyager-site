@@ -1,0 +1,40 @@
+{
+    "name": "apurv/voyager-site",
+    "description": "Voyager Site used to generate dynamic cms page with Laravel Voyager Admin.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Apurv Bhavsar",
+            "email": "apurv.bhavsar.09@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/apurvbhavsar/voyager-site",
+    "type": "library",
+    "keywords": [
+        "voyager-site",
+        "laravel-voyager",
+        "laravel-site",
+        "frontend",
+        "laravel-frontend",
+        "laravel",
+        "cms",
+        "laravel-cms",
+        "dynamic-cms"
+    ], 
+    "require": {
+        "tcg/voyager": "^1.4",
+        "artesaos/seotools": "^0.20.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Apurv\\LaravelSite\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Apurv\\LaravelSite\\VoyagerServiceProvider"            
+            ]
+        }
+    }
+}
