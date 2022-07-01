@@ -1,7 +1,11 @@
 <?php
 
+
 namespace Apurv\LaravelSite;
 
+use Apurv\LaravelSite\Commands\InstallCommand;
+use Apurv\LaravelSite\Facades\Site;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class VoyagerSiteProvider extends ServiceProvider
@@ -13,7 +17,12 @@ class VoyagerSiteProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $loader = AliasLoader::getInstance();
+        $loader->alias('site', Site::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands(InstallCommand::class);
+        }
     }
 
     /**
