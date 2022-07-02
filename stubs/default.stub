@@ -1,0 +1,7 @@
+@extends('voyager-site::site.layouts.app')
+
+@section('content')
+    {{-- Write down your content here --}}
+
+    Dummy Page
+@endsection
