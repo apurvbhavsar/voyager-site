@@ -12,7 +12,14 @@ If you already have tcg/voyager installed and setup then it will ingnore that pa
 
 [Voyager Admin Installation](https://github.com/the-control-group/voyager)
 
-### Migration
+
+### Regular Installation
+
+```bash
+php artisan site:install
+```
+
+### Manual Installation
 
 ```bash
 php artisan vendor:publish --provider="Apurv\LaravelSite\VoyagerSiteProvider"
