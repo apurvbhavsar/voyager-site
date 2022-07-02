@@ -2,8 +2,11 @@
 
 namespace Apurv\LaravelSite\Commands;
 
+use Apurv\LaravelSite\VoyagerSiteProvider;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Composer;
 
 class InstallCommand extends Command
 {
@@ -26,9 +29,19 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Composer $composer)
     {
         parent::__construct();
+
+        $this->composer = $composer;
+        $this->composer->setWorkingPath(base_path());
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production', null]
+        ];
     }
 
     /**
@@ -38,33 +51,35 @@ class InstallCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
+        $routes_contents = $filesystem->get(base_path('routes/web.php'));
+
         $this->info('Publishing the Voyager Site assets, database, and config file');
 
+        $this->info('Checking if Voyager Admin panel is installed');
+        if (
+            false === strpos($routes_contents, 'Voyager::routes()')
+        ) {
+            $this->error('Voyager not Installed. Installing the Voyager Admin panel');
+            $this->call('voyager:install');
+        } else {
+            $this->info('Found! Voyager Installed');
+        }
         // Publish only relevant resources on install
         $tags = ['seeds'];
 
-        $this->call('vendor:publish', ['--provider' => VoyagerSiteProvider::class, '--tag' => $tags]);
+        $this->call('vendor:publish', ['--provider' => VoyagerSiteProvider::class]);
 
         $this->info('Migrating the database tables into your application');
-        $this->call('migrate', ['--force' => $this->option('force')]);
+        $this->call('migrate');
 
         $this->info('Adding Dynamic CMS route to routes/web.php');
-        $routes_contents = $filesystem->get(base_path('routes/web.php'));
-        if (false === strpos($routes_contents, 'Voyager::routes()')) {
+
+        if (false === strpos($routes_contents, "Route::get('/{slug?}'")) {
             $filesystem->append(
                 base_path('routes/web.php'),
                 PHP_EOL . PHP_EOL . "Route::get('/{slug?}', [Apurv\LaravelSite\Http\Controllers\CMSController::class, 'index']);" .  PHP_EOL
             );
         }
-
-        $publishablePath = dirname(__DIR__) . '/../publishable';
-
-        $this->call('vendor:publish', ['--provider' => VoyagerSiteProvider::class, '--tag' => ['config', 'voyager_avatar']]);
-
-        // $this->addNamespaceIfNeeded(
-        //     collect($filesystem->files("{$publishablePath}/database/seeds/")),
-        //     $filesystem
-        // );
 
         $this->info('Dumping the autoloaded files and reloading all new files');
         $this->composer->dumpAutoloads();

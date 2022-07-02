@@ -21,6 +21,7 @@ class VoyagerSiteProvider extends ServiceProvider
         $loader->alias('site', Site::class);
 
         if ($this->app->runningInConsole()) {
+            $this->registerPublishableResources();
             $this->commands(InstallCommand::class);
         }
     }
@@ -35,18 +36,34 @@ class VoyagerSiteProvider extends ServiceProvider
      */
     public function boot()
     {
+        // $this->publishes([
+        //     __DIR__ . '/../config/voyager-site.php' => config_path('voyager-site.php'),
+        //     __DIR__ . '/../database/migrations' => 'database/migrations',
+        //     __DIR__ . '/../database/seeders' => 'database/seeders',
+        // ]);
+
+        // $this->publishes([
+        //     __DIR__ . '/../assets' => public_path('assets'),
+        // ], 'public');
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'voyager-site');
+    }
+
+    /**
+     * Register the publishable files.
+     */
+    private function registerPublishableResources()
+    {
         $this->publishes([
-            __DIR__.'/../config/voyager-site.php' => config_path('voyager-site.php'),
-            __DIR__.'/../database/migrations' => 'database/migrations',
-            __DIR__.'/../database/seeders' => 'database/seeders',
+            __DIR__ . '/../config/voyager-site.php' => config_path('voyager-site.php'),
+            __DIR__ . '/../database/migrations' => 'database/migrations',
+            __DIR__ . '/../database/seeders' => 'database/seeders',
         ]);
 
         $this->publishes([
-            __DIR__.'/../assets' => public_path('assets'),
+            __DIR__ . '/../assets' => public_path('assets'),
         ], 'public');
-
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager-site');
     }
 }

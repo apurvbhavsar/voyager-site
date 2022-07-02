@@ -6,7 +6,7 @@
 
     {{-- main content --}}
     @if (!Request::is('/'))
-        @include('site.partials.page-header')
+        @include('voyager-site::site.partials.page-header')
         <div class="page-main-wrapper">
             @yield('content')
         </div>
@@ -15,7 +15,7 @@
     @endif
     {{-- end main contents --}}
 
-	@include('voyager-site::site.layouts.footer')
+    @include('voyager-site::site.layouts.footer')
 
 
     <!-- Vendor JS Files -->
@@ -32,5 +32,5 @@
     {{-- End Global Script --}}
     @stack('scripts')
 </body>
-</html>
 
+</html>
