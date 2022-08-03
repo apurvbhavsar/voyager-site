@@ -20,7 +20,7 @@
         "cms",
         "laravel-cms",
         "dynamic-cms"
-    ], 
+    ],
     "require": {
         "tcg/voyager": "^1.4",
         "artesaos/seotools": "^0.20.1"
@@ -33,8 +33,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Apurv\\LaravelSite\\VoyagerSiteProvider"            
-            ]
+                "Apurv\\LaravelSite\\VoyagerSiteProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Apurv\\LaravelSite\\Facades\\Site"
+            }
         }
     }
 }

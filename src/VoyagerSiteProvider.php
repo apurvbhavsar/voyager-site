@@ -4,6 +4,7 @@
 namespace Apurv\LaravelSite;
 
 use Apurv\LaravelSite\Commands\InstallCommand;
+use Apurv\LaravelSite\Commands\PageCommand;
 use Apurv\LaravelSite\Facades\Site;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +24,7 @@ class VoyagerSiteProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->registerPublishableResources();
             $this->commands(InstallCommand::class);
+            $this->commands(PageCommand::class);
         }
     }
 
