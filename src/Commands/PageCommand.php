@@ -15,9 +15,7 @@ class PageCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'page:create 
-                                {title : Title of the page}
-                                {--T|t|template=default}';
+    protected $signature = 'page:create { title : Title of the page } {--template=default : Template name}';
 
     /**
      * The console command description.
@@ -59,7 +57,7 @@ class PageCommand extends Command
         $template = $this->option('template');
 
         $this->createPage($title, $template);
-        
+
 
         $this->info('Successfully installed Dyanamic Web Engine! Enjoy');
 
@@ -70,8 +68,16 @@ class PageCommand extends Command
         return Page::create([
             'title' => $title,
             'template' => $template,
-            'slug' => str_slug($title),
-            'status' => 'DRAFT'           
+            'slug' => $this->create_slug($title),
+            'status' => '0',
+            'author_id' => '1'
         ]);
+    }
+
+    function create_slug($str) {
+        $str = strtolower($str);
+        $str = preg_replace('/[^a-z0-9-]/', '-', $str);
+        $str = preg_replace('/-+/', "-", $str);
+        return $str;
     }
 }
