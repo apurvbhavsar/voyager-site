@@ -59,7 +59,7 @@ class PageCommand extends Command
         $this->createPage($title, $template);
 
 
-        $this->info('Successfully installed Dyanamic Web Engine! Enjoy');
+        $this->info('Successfully created New Page! Enjoy');
 
         return Command::SUCCESS;
     }
