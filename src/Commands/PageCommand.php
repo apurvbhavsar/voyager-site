@@ -3,10 +3,7 @@
 namespace Apurv\LaravelSite\Commands;
 
 use Apurv\LaravelSite\Models\Page;
-use Apurv\LaravelSite\VoyagerSiteProvider;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Filesystem\Filesystem;
 
 class PageCommand extends Command
 {
