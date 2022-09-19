@@ -21,10 +21,14 @@ class VoyagerSiteProvider extends ServiceProvider
         $loader = AliasLoader::getInstance();
         $loader->alias('site', Site::class);
 
+
+
+
         if ($this->app->runningInConsole()) {
             $this->registerPublishableResources();
-            $this->commands(InstallCommand::class);
             $this->commands(PageCommand::class);
+
+            $this->commands(InstallCommand::class);
         }
     }
 
