@@ -20,11 +20,6 @@ class CMSController extends Controller
     {
         $slug = $slug ?? config('voyager-site.homepage-blade');
 
-        /**
-         * TODO : Add new feature to fetch content from different models like Blog, Post.
-         * IDEA : Create JSON data in config file which store the Model Path, Search Column, Scope, Meta title, Meta description
-         */
-
         $content = Page::where('slug', $slug)->active()->first();
 
         if(!$content) {
@@ -36,9 +31,9 @@ class CMSController extends Controller
                 if($content) {
                     $this->SetSEO($content[$model['seo']['title']], $content[$model['seo']['description']]);
 
-                    if(isset($model['seo']['image'])) {
-                        $images = $this->setImages($content[$model['seo']['image']]);
-                    }
+                    // if(isset($model['seo']['image'])) {
+                    //     $images = $this->setImages($content[$model['seo']['image']]);
+                    // }
 
                     if(isset($model['template'])) {
                         return view($model['template'], compact('content'));
@@ -80,6 +75,7 @@ class CMSController extends Controller
      */
     private function setImages($images)
     {
+        $images = json_decode($images);
         SEOTools::addImages([$images]);
     }
 }
