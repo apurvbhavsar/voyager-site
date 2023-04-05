@@ -22,7 +22,7 @@
         "dynamic-cms"
     ],
     "require": {
-        "tcg/voyager": "^1.6",
+        "tcg/voyager": "^1.4",
         "artesaos/seotools": "^0.20.1"
     },
     "autoload": {
