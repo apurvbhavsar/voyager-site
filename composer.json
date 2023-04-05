@@ -22,8 +22,8 @@
         "dynamic-cms"
     ],
     "require": {
-        "tcg/voyager": "^1.4",
-        "artesaos/seotools": "^0.20.1"
+        "tcg/voyager": "^1.6",
+        "artesaos/seotools": "^1.1.0"
     },
     "autoload": {
         "psr-4": {
