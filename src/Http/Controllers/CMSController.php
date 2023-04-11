@@ -48,7 +48,7 @@ class CMSController extends Controller
         $this->SetSEO($content->title, $content->meta_description);
 
         $blade = $content->template ?? config('voyager-site.default-blade');
-        $view = "voyager-site::".config('voyager-site.views').".".$blade;
+        $view = config('voyager-site.views').".".$blade;
 
         return view($view, compact('content'));
     }
