@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'views' => 'site',
+    'views' => 'voyager-site::site',
 
     'homepage-blade' => 'home',
 
