@@ -24,4 +24,6 @@
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
         @stack('styles')
+
+        {{ setting('site.header_script') }}
     </head>

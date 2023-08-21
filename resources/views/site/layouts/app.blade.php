@@ -1,12 +1,12 @@
-@include(config('voyager-site.views').'.layouts.head')
+@include(config('voyager-site.views') . '.layouts.head')
 
 <body @if (Request::is('/')) class="home" @endif>
 
-    @include(config('voyager-site.views').'.layouts.header')
+    @include(config('voyager-site.views') . '.layouts.header')
 
     {{-- main content --}}
     @if (!Request::is('/'))
-        @include(config('voyager-site.views').'.partials.page-header')
+        @include(config('voyager-site.views') . '.partials.page-header')
         <div class="page-main-wrapper">
             @yield('content')
         </div>
@@ -15,7 +15,7 @@
     @endif
     {{-- end main contents --}}
 
-    @include(config('voyager-site.views').'.layouts.footer')
+    @include(config('voyager-site.views') . '.layouts.footer')
 
 
     <!-- Vendor JS Files -->
@@ -31,6 +31,8 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     {{-- End Global Script --}}
     @stack('scripts')
+
+    {{ setting('site.footer_script') }}
 </body>
 
 </html>
