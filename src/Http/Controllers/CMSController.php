@@ -20,22 +20,36 @@ class CMSController extends Controller
     {
         $slug = $slug ?? config('voyager-site.homepage-blade');
 
-        $content = Page::where('slug', $slug)->active()->first();
+        $content = Page::where('slug', $slug)
+            ->active()
+            ->first();
 
-        if(!$content) {
+        if (!$content) {
             $extra = config('voyager-site.extra');
-            if(!$extra) abort(404);
+            if (!$extra) {
+                abort(404);
+            }
 
             foreach ($extra as $key => $model) {
-                $content = $model['model']::where($model['slug'], $slug)->first();
-                if($content) {
-                    $this->SetSEO($content[$model['seo']['title']], $content[$model['seo']['description']]);
+                $query = $model['model']::where($model['slug'], $slug);
+                if (count($model['scope'])) {
+                    foreach ($model['scope'] as $scope) {
+                        $query->{$scope}();
+                    }
+                }
+
+                $content = $query->first();
+                if ($content) {
+                    $this->SetSEO(
+                        $content[$model['seo']['title']],
+                        $content[$model['seo']['description']]
+                    );
 
                     // if(isset($model['seo']['image'])) {
                     //     $images = $this->setImages($content[$model['seo']['image']]);
                     // }
 
-                    if(isset($model['template'])) {
+                    if (isset($model['template'])) {
                         return view($model['template'], compact('content'));
                     }
                 }
@@ -44,11 +58,10 @@ class CMSController extends Controller
             abort(404);
         }
 
-
         $this->SetSEO($content->title, $content->meta_description);
 
         $blade = $content->template ?? config('voyager-site.default-blade');
-        $view = config('voyager-site.views').".".$blade;
+        $view = config('voyager-site.views') . '.' . $blade;
 
         return view($view, compact('content'));
     }
@@ -60,7 +73,7 @@ class CMSController extends Controller
      * @param [String] $description
      * @return void
      */
-    private function SetSEO($title, $description) : void
+    private function SetSEO($title, $description): void
     {
         SEOTools::setTitle($title);
         SEOTools::setDescription($description);
